@@ -1,6 +1,6 @@
 package com.pigeonskyracespringsecurity.service;
 
-import com.pigeonskyracespringsecurity.model.User;
+import com.pigeonskyracespringsecurity.model.entity.User;
 import com.pigeonskyracespringsecurity.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
