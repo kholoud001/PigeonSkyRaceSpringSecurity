@@ -1,6 +1,6 @@
 package com.pigeonskyracespringsecurity.repository;
 
-import com.pigeonskyracespringsecurity.model.User;
+import com.pigeonskyracespringsecurity.model.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
