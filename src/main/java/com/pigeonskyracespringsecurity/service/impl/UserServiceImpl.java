@@ -1,6 +1,7 @@
 package com.pigeonskyracespringsecurity.service.impl;
 
 import com.pigeonskyracespringsecurity.DTO.UserDTO;
+import com.pigeonskyracespringsecurity.exception.UsernameAlreadyExistsException;
 import com.pigeonskyracespringsecurity.mapper.UserMapper;
 import com.pigeonskyracespringsecurity.model.entity.*;
 import com.pigeonskyracespringsecurity.model.enums.RoleType;
@@ -9,6 +10,7 @@ import com.pigeonskyracespringsecurity.repository.UserRepository;
 import com.pigeonskyracespringsecurity.service.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -25,9 +27,9 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public User register(UserDTO userDTO) {
+    public User register(UserDTO userDTO) throws UsernameAlreadyExistsException {
         if (userRepository.existsByUsername(userDTO.getUsername())) {
-            throw new IllegalArgumentException("Username already exists!");
+            throw new UsernameAlreadyExistsException(userDTO.getUsername());
         }
 
 //        Role role = roleRepository.findByRoleType(userDTO.getRoleType())
@@ -52,9 +54,9 @@ public class UserServiceImpl implements UserService {
 
         if (currentUser == null || !currentUser.getAuthorities().stream()
                 .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"))) {
-            throw new SecurityException("Only admins can change user roles");
+            throw new IllegalArgumentException("Only admins can change user roles");
         }
-
+        
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
