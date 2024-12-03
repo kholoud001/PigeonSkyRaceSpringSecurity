@@ -8,4 +8,5 @@ public interface UserService {
     User register(UserDTO userDTO);
 
 
+    User changeRole(String username, String newRole);
 }
