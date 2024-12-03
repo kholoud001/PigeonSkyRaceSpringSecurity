@@ -1,4 +1,4 @@
-package com.pigeonskyracespringsecurity.service;
+package com.pigeonskyracespringsecurity.service.impl;
 
 import com.pigeonskyracespringsecurity.model.entity.User;
 import com.pigeonskyracespringsecurity.repository.UserRepository;
