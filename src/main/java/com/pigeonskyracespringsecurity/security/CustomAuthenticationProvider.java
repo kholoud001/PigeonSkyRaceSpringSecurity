@@ -12,6 +12,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import javax.sound.midi.Soundbank;
+
 @Component
 @RequiredArgsConstructor
 public class CustomAuthenticationProvider implements AuthenticationProvider {
@@ -34,6 +36,10 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
         Authentication authenticated = new UsernamePasswordAuthenticationToken(
                 userDetails, password, userDetails.getAuthorities());
+
+        Object principal = authenticated.getPrincipal();
+        System.out.println("prinicpal =>"+ principal);
+
         return authenticated;
     }
 
