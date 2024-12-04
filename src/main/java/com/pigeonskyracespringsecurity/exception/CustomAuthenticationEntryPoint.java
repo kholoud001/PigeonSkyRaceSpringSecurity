@@ -21,7 +21,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
         ErrorDTO errorDTO = new ErrorDTO(
                 "Unauthorized: " + authException.getMessage(),
                 request.getRequestURI(),
-                LocalDateTime.now(),
+               // LocalDateTime.now(),
                 HttpStatus.UNAUTHORIZED.value()
         );
 

@@ -10,6 +10,6 @@ import java.time.LocalDateTime;
 public class ErrorDTO {
     private String message;
     private String path;
-    private LocalDateTime timestamp;
+   // private LocalDateTime timestamp;
     private int status;
 }
