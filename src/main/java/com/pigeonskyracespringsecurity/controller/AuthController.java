@@ -4,6 +4,7 @@ import com.pigeonskyracespringsecurity.DTO.UserDTO;
 import com.pigeonskyracespringsecurity.exception.UsernameAlreadyExistsException;
 import com.pigeonskyracespringsecurity.model.entity.User;
 import com.pigeonskyracespringsecurity.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,7 @@ public class AuthController {
     private final UserService userService;
 
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@RequestBody UserDTO userDTO) {
+    public ResponseEntity<?> registerUser(@Valid @RequestBody UserDTO userDTO) {
         try {
             User user = userService.register(userDTO);
             return ResponseEntity.ok(user);
