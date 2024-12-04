@@ -14,6 +14,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import org.springframework.security.web.SecurityFilterChain;
@@ -40,10 +41,11 @@ public class SecurityConfig {
                     registry.anyRequest().authenticated();
                 })
                 .formLogin().disable()
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .httpBasic(Customizer.withDefaults())
                 .exceptionHandling(exception -> exception
                         .accessDeniedHandler(accessDeniedHandler())
-                        .authenticationEntryPoint(customAuthenticationEntryPoint)  
+                        .authenticationEntryPoint(customAuthenticationEntryPoint)
 
                 )
                 .build();
