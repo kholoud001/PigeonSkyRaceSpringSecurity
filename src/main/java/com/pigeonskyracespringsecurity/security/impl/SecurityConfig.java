@@ -22,8 +22,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final UserDetailsService userDetailsService;
-    private final AuthenticationProvider customAuthenticationProvider;
+//    private final AuthenticationProvider customAuthenticationProvider;
     private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
     private final CustomAccessDeniedHandler  customAccessDeniedHandler;
 
@@ -36,12 +35,13 @@ public class SecurityConfig {
                     registry.requestMatchers("/register").permitAll();
                     registry.requestMatchers("/admin/**").hasRole("ADMIN");
                     registry.requestMatchers("/competitions/**").hasAnyRole("ADMIN", "ORGANIZER");
+                    registry.requestMatchers("/pigeons/**").hasAnyRole("ADMIN","USER");
                     registry.anyRequest().authenticated();
                 })
                 .formLogin().disable()
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+//                .authenticationProvider(customAuthenticationProvider)
                 .httpBasic(Customizer.withDefaults())
-                .authenticationProvider(customAuthenticationProvider)
                 .exceptionHandling(exception -> exception
                         .accessDeniedHandler(customAccessDeniedHandler)
                         .authenticationEntryPoint(customAuthenticationEntryPoint)
