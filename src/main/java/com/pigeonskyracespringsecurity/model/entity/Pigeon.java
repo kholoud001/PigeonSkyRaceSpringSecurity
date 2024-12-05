@@ -1,6 +1,7 @@
 package com.pigeonskyracespringsecurity.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.pigeonskyracespringsecurity.model.enums.Gender;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
@@ -9,6 +10,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.context.annotation.Lazy;
 
 @Entity
 @Data
@@ -43,7 +45,9 @@ public class Pigeon {
     @JoinColumn(name = "competition_id")
     private Competition competition;
 
-    @ManyToOne
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+
 }

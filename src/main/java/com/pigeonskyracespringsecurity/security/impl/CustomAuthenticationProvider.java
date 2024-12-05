@@ -35,8 +35,9 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         Authentication authenticated = new UsernamePasswordAuthenticationToken(
                 userDetails, password, userDetails.getAuthorities());
 
-//        Object principal = authenticated.getPrincipal();
-//        System.out.println("prinicpal =>"+ principal);
+   Object principal = authenticated.getPrincipal();
+   System.out.println("prinicpal =>"+ principal);
+   System.out.println("authentificated  object => "+authenticated);
 
         return authenticated;
     }

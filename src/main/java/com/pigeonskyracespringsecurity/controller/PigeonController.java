@@ -7,6 +7,7 @@ import com.pigeonskyracespringsecurity.service.PigeonService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.validation.ValidationAutoConfiguration;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,8 +23,14 @@ public class PigeonController {
     private final PigeonService pigeonService;
 
     @PostMapping(("/add"))
-    public ResponseEntity<Pigeon> addPigeon(@Valid @RequestBody PigeonDTO pigeonDTO) throws AccessDeniedException {
-        Pigeon pigeon = pigeonService.addPigeonToCompetition(pigeonDTO);
-        return ResponseEntity.ok(pigeon);
+    public ResponseEntity<PigeonDTO> addPigeonToCompetition(@Valid @RequestBody PigeonDTO pigeonDTO) {
+        try {
+            PigeonDTO responseDTO = pigeonService.addPigeonToCompetition(pigeonDTO);
+            return new ResponseEntity<>(responseDTO, HttpStatus.CREATED);
+        } catch (RuntimeException ex) {
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+        } catch (AccessDeniedException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

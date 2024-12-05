@@ -11,6 +11,7 @@ import com.pigeonskyracespringsecurity.repository.UserRepository;
 import com.pigeonskyracespringsecurity.service.PigeonService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.Hibernate;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -26,9 +27,23 @@ public class PigeonServiceImpl implements PigeonService {
 
     @Override
     @Transactional
-    public Pigeon addPigeonToCompetition(PigeonDTO pigeonDTO) {
+//    public Pigeon addPigeonToCompetition(PigeonDTO pigeonDTO) {
+//        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+//
+//        User user = userRepository.findByUsername(username)
+//                .orElseThrow(() -> new RuntimeException("User not found"));
+//
+//        Competition competition = competitionRepository.findById(pigeonDTO.getCompetitionId())
+//                .orElseThrow(() -> new RuntimeException("Competition not found"));
+//
+//        Pigeon pigeon = pigeonMapper.toEntity(pigeonDTO);
+//        pigeon.setUser(user);
+//        pigeon.setCompetition(competition);
+//
+//        return pigeonRepository.save(pigeon);
+//    }
+    public PigeonDTO addPigeonToCompetition(PigeonDTO pigeonDTO) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
@@ -39,7 +54,19 @@ public class PigeonServiceImpl implements PigeonService {
         pigeon.setUser(user);
         pigeon.setCompetition(competition);
 
-        return pigeonRepository.save(pigeon);
+        Pigeon savedPigeon = pigeonRepository.save(pigeon);
+
+        PigeonDTO responseDTO = new PigeonDTO();
+        responseDTO.setRingNumber(savedPigeon.getRingNumber());
+        responseDTO.setAge(savedPigeon.getAge());
+        responseDTO.setColor(savedPigeon.getColor());
+        responseDTO.setGender(savedPigeon.getGender().toString());
+        responseDTO.setCompetitionId(savedPigeon.getCompetition().getId());
+        responseDTO.setUserId(savedPigeon.getUser().getId());
+
+        return responseDTO;
     }
+
+
 
 }
