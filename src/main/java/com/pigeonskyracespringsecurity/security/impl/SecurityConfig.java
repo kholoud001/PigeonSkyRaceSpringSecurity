@@ -35,6 +35,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(registry -> {
                     registry.requestMatchers("/register").permitAll();
                     registry.requestMatchers("/admin/**").hasRole("ADMIN");
+                    registry.requestMatchers("/competitions/**").hasAnyRole("ADMIN", "ORGANIZER");
                     registry.anyRequest().authenticated();
                 })
                 .formLogin().disable()

@@ -16,6 +16,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
@@ -54,7 +56,7 @@ public class UserServiceImpl implements UserService {
 
         if (currentUser == null || !currentUser.getAuthorities().stream()
                 .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"))) {
-            throw new IllegalArgumentException("Only admins can change user roles");
+            throw new AccessDeniedException("Only admins can change user roles");
         }
         
         User user = userRepository.findByUsername(username)
@@ -65,6 +67,11 @@ public class UserServiceImpl implements UserService {
 
         user.setRole(role);
         return userRepository.save(user);
+    }
+
+    @Override
+    public Optional<User> findByUsername(String name){
+        return userRepository.findByUsername(name);
     }
 
 
