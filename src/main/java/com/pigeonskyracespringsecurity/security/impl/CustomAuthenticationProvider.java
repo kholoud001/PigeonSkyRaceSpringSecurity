@@ -1,4 +1,4 @@
-package com.pigeonskyracespringsecurity.security;
+package com.pigeonskyracespringsecurity.security.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -11,8 +11,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-
-import javax.sound.midi.Soundbank;
 
 @Component
 @RequiredArgsConstructor

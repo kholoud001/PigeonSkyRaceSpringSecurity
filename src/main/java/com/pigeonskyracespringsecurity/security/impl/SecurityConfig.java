@@ -1,15 +1,12 @@
-package com.pigeonskyracespringsecurity.security;
+package com.pigeonskyracespringsecurity.security.impl;
 
 import com.pigeonskyracespringsecurity.exception.CustomAccessDeniedHandler;
 import com.pigeonskyracespringsecurity.exception.CustomAuthenticationEntryPoint;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.Customizer;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -18,7 +15,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.access.AccessDeniedHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -29,6 +25,7 @@ public class SecurityConfig {
     private final UserDetailsService userDetailsService;
     private final AuthenticationProvider customAuthenticationProvider;
     private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
+    private final CustomAccessDeniedHandler  customAccessDeniedHandler;
 
 
     @Bean
@@ -43,25 +40,17 @@ public class SecurityConfig {
                 .formLogin().disable()
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .httpBasic(Customizer.withDefaults())
+                .authenticationProvider(customAuthenticationProvider)
                 .exceptionHandling(exception -> exception
-                        .accessDeniedHandler(accessDeniedHandler())
+                        .accessDeniedHandler(customAccessDeniedHandler)
                         .authenticationEntryPoint(customAuthenticationEntryPoint)
 
                 )
                 .build();
     }
 
-    @Bean
-    public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
-        AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
-        authenticationManagerBuilder.authenticationProvider(customAuthenticationProvider);
-        return authenticationManagerBuilder.build();
-    }
 
-    @Bean
-    public AccessDeniedHandler accessDeniedHandler() {
-        return new CustomAccessDeniedHandler();
-    }
+
 
 
 

@@ -1,4 +1,4 @@
-package com.pigeonskyracespringsecurity.security;
+package com.pigeonskyracespringsecurity.security.impl;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
