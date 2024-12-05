@@ -23,7 +23,7 @@ public class CompetitionController {
 
 
     @PostMapping("/competitions")
-    @Secured({"ROLE_ORGANIZER","ROLE_ADMIN"})
+   // @Secured({"ROLE_ORGANIZER","ROLE_ADMIN"})
     public ResponseEntity<?> createCompetition(@Valid @RequestBody CompetitionDTO competitionDTO, Principal principal) {
         String username = principal.getName();
 
