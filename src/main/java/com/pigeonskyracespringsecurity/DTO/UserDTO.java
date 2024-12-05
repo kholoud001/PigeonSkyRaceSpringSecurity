@@ -5,6 +5,9 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
+import java.util.List;
+
+
 
 @Data
 @NoArgsConstructor
@@ -16,4 +19,10 @@ public class UserDTO {
     @NotBlank(message = "Please provide a password")
     private String password;
     @NotNull
-    private RoleType roleType;}
+    private RoleType roleType;
+
+    private List<CompetitionDTO> competitions;
+
+}
+
+
