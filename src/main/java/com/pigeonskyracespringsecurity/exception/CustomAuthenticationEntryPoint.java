@@ -1,5 +1,6 @@
 package com.pigeonskyracespringsecurity.exception;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pigeonskyracespringsecurity.DTO.ErrorDTO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -16,17 +17,20 @@ import java.time.LocalDateTime;
 public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
 
+    private final ObjectMapper objectMapper = new ObjectMapper();
+
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
         ErrorDTO errorDTO = new ErrorDTO(
                 "Unauthorized: " + authException.getMessage(),
                 request.getRequestURI(),
-               // LocalDateTime.now(),
                 HttpStatus.UNAUTHORIZED.value()
         );
 
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
         response.setContentType("application/json");
-        response.getWriter().write(errorDTO.toString());
+
+        // Serialize ErrorDTO to JSON and write it to the response
+        response.getWriter().write(objectMapper.writeValueAsString(errorDTO));
     }
 }
