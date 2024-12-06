@@ -19,9 +19,7 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
-//@Profile({"dev", "prod"})
-@Profile("prod")
-//@EnableGlobalMethodSecurity(securedEnabled = true)
+//@Profile("prod")
 @RequiredArgsConstructor
 public class SecurityConfig {
 
