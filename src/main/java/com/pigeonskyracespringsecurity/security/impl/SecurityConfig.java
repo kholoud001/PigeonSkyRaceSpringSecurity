@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -34,7 +35,8 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(registry -> {
                     registry.requestMatchers("/register").permitAll();
-                    registry.requestMatchers("/admin/**").hasRole("ADMIN");
+                    registry.requestMatchers(HttpMethod.POST,"/admin/**").hasAnyAuthority("_ADMIN");
+                            //hasRole("ADMIN");
                     registry.requestMatchers("/competitions/**").hasAnyRole("ADMIN", "ORGANIZER");
                     registry.requestMatchers("/pigeons/**").hasAnyRole("ADMIN","USER");
                     registry.anyRequest().authenticated();
